@@ -1,0 +1,431 @@
+<!-- //Web::Jatin Remove the testing infra -->
+
+<!doctype html>
+<html>
+
+<head>
+    <h1 align="middle"> PhonePe Web SDK Test </h1>
+</head>
+
+<body>
+    <style>
+        button,
+        td,
+        input {
+            font-size: 30px;
+        }
+    </style>
+    <script src="./bundle.js"></script>
+    <script>
+
+        function currentOS() {
+            return 'ios';
+            //return 'android';
+        }
+
+        function createuuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function transactionId() {
+            return this.createuuid()
+        }
+
+        function reservervationId() {
+            return this.createuuid()
+        }
+
+        function setData() {
+            //let os = (this.currentOS() === 'ios') ? PhonePe.Constants.OS.ios : PhonePe.Constants.OS.android
+            //console.log('Fetching OS dynamically = ' + os)
+            //console.log('Species = ' + PhonePe.Constants.Species.web)
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let res = sdk.isMethodSupported('setItem')
+                console.log('setItem method supported = ' + res)
+                sdk.setItem('test', 'key', 'value')
+
+            })
+
+        }
+
+        function getData() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let res = sdk.isMethodSupported('getItem')
+                console.log('getItem method supported = ' + res)
+                sdk.getItem('test', 'key', null).then((data) => {
+                    console.log("data received on js side = " + data)
+                }).catch((err) => {
+                    console.log("Error found = " + err)
+                })
+            })
+
+        }
+
+        function removeData() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('removeItem')
+                console.log('removeItem method supported = ' + res)
+                sdk.removeItem('test', 'key')
+            })
+
+        }
+
+        function startUpdatingLocation() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('startUpdatingLocation')
+                console.log('startUpdatingLocation method supported = ' + res)
+                sdk.startUpdatingLocation()
+            })
+
+        }
+
+        function stopUpdatingLocation() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('stopUpdatingLocation')
+                console.log('stopUpdatingLocation method supported = ' + res)
+                sdk.stopUpdatingLocation()
+            })
+
+        }
+
+        function registerLocationUpdateSuccessCallback() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                sdk.registerLocationUpdateSuccessCallback('callbackName', (response) => {
+                    console.log('Location success response = ' + JSON.stringify(response))
+                })
+            })
+
+        }
+
+        function registerLocationUpdateFailureCallback() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.registerLocationUpdateFailureCallback('callbackName', (response) => {
+                    console.log('Location failure response = ' + JSON.stringify(response))
+                })
+            })
+
+        }
+
+        function getCurrentLocation() {
+            console.log('Trying to get current location')
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('getCurrentLocation')
+                console.log('getCurrentLocation method supported = ' + res)
+
+                sdk.getCurrentLocation().then((location) => {
+                    console.log("location received on js side = " + location)
+                }).catch((err) => {
+                    console.log("Error found when fetching location = " + err)
+                })
+            }).catch((err) => {
+                console.log('Error caught when initializing PhonePe = ' + err)
+            })
+
+        }
+
+        /**
+         * openTransactionDetailsPage(transactionId: string): Promise<any> | void {
+         }
+         **/
+
+        function navigateToTransactionDetails() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('openTransactionDetailsPage')
+                console.log('openTransactionDetailsPage method supported = ' + res)
+                sdk.openTransactionDetailsPage(this.transactionId())
+            })
+        }
+
+        function navigateToPayments() {
+
+            let merchantName = 'Ticket New'
+            let metadata = [{
+                "Movie Name": "Avengers"
+            }, {"Seats": "3A, 3B, 3C"}]
+            let timeoutInterval = 480000
+
+            let context = {
+                "merchantId": "TICKETNEWTEST",
+                "merchantTransactionId": "transactionId010",
+                "reservationId": "W1803281253545745701305",
+                "serviceCategory": "MOVIE",
+                "validFor": 86400,
+                "payableAmount": 5000,
+                "quantity": 2
+            }
+
+            /**
+             * openPaymentsPage(fallbackURL: string, merchantName: string, context: { [key: string]: any }, imageURL?: string, metaData?: { [key: string]: string }): Promise<any> | void {
+             }
+             * **/
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                sdk.openPaymentsPage(merchantName, context, "", "", metadata, confirmationState).then((response) => {
+                    console.log("Payment was successful = " + response)
+                }).catch((err) => {
+                    console.log("Payment failed with error = " + err)
+                })
+            })
+
+        }
+
+        function navigateToHelpPage() {
+            let navigationRequest = new PhonePe.HelpPageNavigationRequest(this.transactionId())
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.navigateToPage(navigationRequest)
+            })
+
+        }
+
+        function getUserDetails() {
+
+            let email = PhonePe.Constants.UserDetail.email
+            let phoneNumber = PhonePe.Constants.UserDetail.phoneNumber
+            let isEmailVerified = PhonePe.Constants.UserDetail.isEmailVerified
+            let name = PhonePe.Constants.UserDetail.name
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('getUserDetails')
+                console.log('getUserDetails method supported = ' + res)
+
+                sdk.getUserDetails([email, phoneNumber, isEmailVerified, name]).then((user) => {
+                    console.log("user data received on js = " + JSON.stringify(user))
+                }).catch((err) => {
+                    console.log("Error found when fetching user = " + err)
+                })
+            })
+
+        }
+
+        function getSupportedWebSDKVersion() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.isMethodSupported('getUserDetails')
+            })
+        }
+
+        function seekPermission() {
+            let env = PhonePe.Constants.Species.web
+            let readsms = PhonePe.Constants.Permission.READ_SMS
+            let location = PhonePe.Constants.Permission.LOCATION
+
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('seekPermission')
+                console.log('seekPermission method supported = ' + res)
+
+                sdk.seekPermission([readsms, location]).then((data) => {
+                    console.log('Successfully got permission for readsms')
+                })
+            }).catch((err) => {
+                console.log('Failed to fetch permission with error = ' + err)
+            })
+        }
+
+        function openSettingsPage() {
+            let env = PhonePe.Constants.Species.web
+            let readsms = PhonePe.Constants.Permission.READ_SMS
+            let location = PhonePe.Constants.Permission.LOCATION
+
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('openSettingsPageForPermission')
+                console.log('openSettingsPageForPermission method supported = ' + res)
+
+                sdk.openSettingsPageForPermission().then(() => {
+                    console.log('Successfully opened settings page')
+                })
+            }).catch((err) => {
+                console.log('Failed to open settings page with error = ' + err)
+            })
+        }
+
+        function logMerchantEvent() {
+
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('logMerchantEvent')
+                console.log('logMerchantEvent method supported = ' + res)
+
+                let name = 'Test'
+                let metadata = { 'key': 'value' }
+
+                sdk.logMerchantEvent(name, metadata).then(() => {
+                    console.log('Successfully sent event with name = ' + name)
+                })
+            }).catch((err) => {
+                console.log('Failed to send event with error = ' + err)
+            })
+
+        }
+
+        function replace() {
+
+            console.log('Using Replace state');
+
+            if (history.replaceState) {
+                history.replaceState(null, "Page", "test.html");
+                history.go(0);
+            } else {
+                location.replace(url);
+            }
+
+            // if(!!(window.history && history.replaceState)){
+            //     console.log('Using Replace state inside');
+            //     console.log('History before = ' + window.history);
+            //     window.history.replaceState({}, document.title, "test.html");
+            //     console.log('History after = ' + window.history);
+            // } else {
+            //     location.replace("test.html");
+            // }
+
+            // document.location.replace('test.html')
+        }
+
+        function setCookie() {
+            console.log('Testing set cookie')
+            document.cookie = 'test1=test1'
+        }
+
+        function getCookie() {
+            alert(document.cookie)
+        }
+
+        function reserveOrder() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                let res = sdk.isMethodSupported('reserveOrder')
+                console.log('reserveOrder method supported = ' + res)
+
+                let response = 'eyJtZXJjaGFudElkIjoiT1lPVEVTVCIsIm1lcmNoYW50T3JkZXJJZCI6IjVjMGZiYWFmODNhZjQ1IiwicmVzZXJ2YXRpb25JZCI6IlIxOTA0MDQxNDMwMTkyNTE4NjgzMjM1In0='
+                alert(response)
+                let providerId = 'ONNBIKESTEST'
+                sdk.reserveOrder(response, providerId).then((res2) => {
+                    console.log('res2 = ' + res2)
+                }).catch((err) => {
+                    console.log('Failed to reserve order with error = ' + err)
+                })
+            })
+        }
+
+        function fulfillOrder() {
+            let merchantName = 'Oyo Rooms'
+            let metadata = [{
+                "Movie Name": "Avengers"
+            }, {"Seats": "3A, 3B, 3C"}]
+            let timeoutInterval = 480000
+
+            /**
+             * {
+                "merchantId": "TICKETNEWTEST",
+                "merchantTransactionId": "transactionId010",
+                "reservationId": "W1803281253545745701305",
+                "serviceCategory": "MOVIE",
+                "validFor": 86400,
+                "payableAmount": 5000,
+                "quantity": 2
+            }
+             **/
+            // Replace this with the response from swagger's /v2/webapp/txn/reserve
+            let context = 'eyJtZXJjaGFudElkIjoiT1lPVEVTVCIsIm1lcmNoYW50VHJhbnNhY3Rpb25JZCI6InFlemFlb2xvdGttdDFrNzNubjdqcWs0bCIsInJlc2VydmF0aW9uSWQiOiJSMTkwMzI4MTE1OTI1OTY4MjgyNDM3MiIsInNlcnZpY2VSZXF1ZXN0SWQiOiJPMTkwMzI4MTE1OTEzMjIxMjgyNDI0MCIsInNlcnZpY2VDYXRlZ29yeSI6IkhPVEVMIiwidmFsaWRGb3IiOjAsInZhbGlkVGlsbCI6MCwicGF5YWJsZUFtb3VudCI6MTY4MTAwLCJzZXJ2aWNlVHlwZVZlcnNpb24iOiJWMiJ9'
+
+            /**
+             * openPaymentsPage(fallbackURL: string, merchantName: string, context: { [key: string]: any }, imageURL?: string, metaData?: { [key: string]: string }): Promise<any> | void {
+             }
+             * **/
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                sdk.openPaymentsPageForReservedOrder(merchantName, context, "", "", metadata, confirmationState).then((response) => {
+                    console.log("Payment was successful = " + response)
+                }).catch((err) => {
+                    console.log("Payment failed with error = " + err)
+                })
+            })
+        }
+
+        function selectFile() {
+            console.log('Inside selectFile() method')
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                let res = sdk.isMethodSupported('selectFile')
+                console.log('selectFile method supported = ' + res)
+
+                sdk.selectFile('image', true).then((res2) => {
+
+                    // Now read the data from the URI
+                    console.log('res2 = ' + res2)
+                    let uri = res2[0].uri
+                    let supported = sdk.isMethodSupported('readFile')
+
+                    console.log('readFile method supported = ' + supported)
+                    sdk.readFile(uri, 0, 200).then((res4) => {
+                        console.log('res2 = ' + res4)
+                        alert('res2 = ' + res4)
+                    }).catch((err) => {
+                        console.log('Failed to select file with error = ' + err)
+                    })
+
+                }).catch((err) => {
+                    console.log('Failed to select file with error = ' + err)
+                })
+            })
+        }
+
+        function proceedToPayWeb() {
+            const rid = document.getElementById("rid").value
+            const fallbackURL = 'https://www.google.com/'
+            let env = PhonePe.Constants.Species.web
+
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.proceedToPay(rid, fallbackURL).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to proceed to pay ', err)
+            })
+        }
+
+        function proceedToPayRN() {
+            const rid = 'R3124519230414'
+            const fallbackURL = 'https://www.google.com/'
+            let env = PhonePe.Constants.Species.native
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.proceedToPay(rid, fallbackURL).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to proceed to pay ', err)
+            })
+        }
+
+        function refresh() {
+            location.reload(true)
+        }
+
+    </script>
+    <table align="middle" cellspacing="10">
+        <tr>
+                <td>
+                    <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                    <form>
+                        Reservation ID: <br><input type="text" id="rid" name="rid"><br>
+                        <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();" </td>
+                        <input id="clickMe21" type="button" value="navigateToPayments" onclick="console.log('navigateToPayments pressed');navigateToPayments();" </td>
+                    </form>
+        </tr>
+    </table>
+</body>
+
+</html>
