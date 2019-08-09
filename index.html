@@ -64,6 +64,19 @@
 
         }
 
+        function triggerSSO() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('fetchAuthToken')
+                console.log('fetchAuthToken method supported = ' + res)
+                sdk.fetchAuthToken().then((e) => {
+                    alert(e)
+                }).catch((e) => {
+                    alert(e)
+                })
+            })
+
+        }
+
         function removeData() {
             PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
                 let res = sdk.isMethodSupported('removeItem')
@@ -423,6 +436,8 @@
                         Reservation ID: <br><input type="text" id="rid" name="rid"><br>
                         <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();" </td>
                         <input id="clickMe21" type="button" value="navigateToPayments" onclick="console.log('navigateToPayments pressed');navigateToPayments();" </td>
+                        <br/>
+                        <input id="clickMe21" type="button" value="Open SSO" onclick="console.log('Open SSO pressed');triggerSSO();" </td>
                     </form>
         </tr>
     </table>
