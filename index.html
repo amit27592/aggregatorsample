@@ -79,6 +79,21 @@
 
         }
 
+        function triggerOldSSO() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('fetchGrantToken')
+                console.log('fetchAuthToken method supported = ' + res)
+                sdk.fetchAuthToken().then((e) => {
+                    console.log(e)
+                    alert(JSON.stringify(e))
+                }).catch((e) => {
+                    console.log(e)
+                    alert(JSON.stringify(e))
+                })
+            })
+
+        }
+
         function removeData() {
             PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
                 let res = sdk.isMethodSupported('removeItem')
@@ -440,6 +455,7 @@
                         <input id="clickMe21" type="button" value="navigateToPayments" onclick="console.log('navigateToPayments pressed');navigateToPayments();" </td>
                         <br/>
                         <input id="clickMe21" type="button" value="Open SSO" onclick="console.log('Open SSO pressed');triggerSSO();" </td>
+                        <input id="clickMe22" type="button" value="Open old SSO" onclick="console.log('Open old SSO pressed');triggerOldSSO();" </td>
                     </form>
         </tr>
     </table>
