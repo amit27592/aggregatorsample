@@ -418,7 +418,7 @@
         function createServiceRequestToken() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then((sdk) => {
-                let res = sdk.isMethodSupported('createServiceRequestToken')
+                let res = sdk.isMethodSupported('fetchOrderRequestToken')
                 console.log('createServiceRequestToken method supported = ' + res)
                 sdk.createServiceRequestToken().then((res2) => {
                     console.log('res2 = ' + res2)
