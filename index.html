@@ -19,8 +19,13 @@
     <script>
 
         function currentOS() {
-            return 'android';
-            //return 'android';
+            if (navigator.userAgent.search('phonepe-android') !== -1) {
+                return ExternalConstants.OS.android
+            }
+
+            if (navigator.userAgent.search('phonepe-ios') !== -1) {
+                return ExternalConstants.OS.ios
+            }
         }
 
         function createuuid() {
