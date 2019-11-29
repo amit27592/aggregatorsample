@@ -15,17 +15,12 @@
             font-size: 30px;
         }
     </style>
-    <script src="./bundle.js"></script>
+    <script src="./lib/bundle.js"></script>
     <script>
 
         function currentOS() {
-            if (navigator.userAgent.search('phonepe-android') !== -1) {
-                return ExternalConstants.OS.android
-            }
-
-            if (navigator.userAgent.search('phonepe-ios') !== -1) {
-                return ExternalConstants.OS.ios
-            }
+            return 'android';
+            //return 'android';
         }
 
         function createuuid() {
@@ -415,20 +410,28 @@
             location.reload(true)
         }
 
-        function createServiceRequestToken() {
+        function startBluetooth() {
+            const options = {showAlert: true}
             let env = PhonePe.Constants.Species.web
-            PhonePe.PhonePe.build(env).then((sdk) => {
-                let res = sdk.isMethodSupported('fetchOrderRequestToken')
-                console.log('createServiceRequestToken method supported = ' + res)
-                sdk.createServiceRequestToken().then((res2) => {
-                    console.log('res2 = ' + res2)
-                    alert(JSON.stringify(res2))
-                }).catch((err) => {
-                    console.log('Failed to create service request token with error = ' + err)
-                    alert('Failed to create service request token with error = ' + JSON.stringify(err))
-                })
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.bluetoothStart(options).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to start bluetooth ', err)
             })
-        }        
+        }
+
+        function enableBluetooth() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.bluetoothEnableBluetooth().then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to start bluetooth ', err)
+            })
+        }
 
     </script>
     <table align="middle" cellspacing="10">
@@ -437,10 +440,6 @@
                     <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
             </tr>
         <tr>
-            <td>
-                <input id="clickMe22" type="button" value="createServiceRequestToken" onclick="console.log('createServiceRequestToken');createServiceRequestToken();" </td>
-        </tr>
-        <tr>
         <tr>
             <td>
                     <form>
@@ -448,6 +447,15 @@
                         <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();" </td>
                     </form>
         </tr>
+        <tr>
+            <td>
+                <input id="clickMe22" type="button" value="Start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe23" type="button" value="enable bluetooth" onclick="console.log('start bluetooth');enableBluetooth();" </td>
+        </tr>
+    <tr>
     </table>
 </body>
 
