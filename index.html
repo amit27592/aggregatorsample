@@ -415,8 +415,8 @@
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.bluetoothStart(options).then(res => {
-                    alert(res)
-                }).catch(err => alert(err))
+                    alert(JSON.stringify(res))
+                }).catch(err => alert(JSON.stringify(err)))
             }).catch(err => {
                 alert('failed to start bluetooth ', err)
             })
@@ -461,6 +461,10 @@
         <tr>
             <td>
                 <input id="clickMe22" type="button" value="Create Token" onclick="console.log('create token');createServiceRequestToken();" </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
         </tr>
     <tr>
     </table>
