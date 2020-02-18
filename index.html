@@ -444,6 +444,37 @@
             })
         }
 
+        function changeOrientation() {
+            const orientationMode = document.getElementById("orientation-mode").value
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.changeOrientation(orientationMode).then(res => {
+                    console.log(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to change orientation ', err)
+            })
+        }
+
+        function requestFullScreenMode() {
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.requestFullScreenMode().then(res => {
+                    console.log(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to full screen ', err)
+            })
+        }
+
+        function requestExitFullScreenMode() {
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.requestExitFullScreenMode().then(res => {
+                    console.log(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to exit full screen ', err)
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -465,6 +496,18 @@
         <tr>
             <td>
                 <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
+            <td>
+                <form>
+                    Orientation Mode: <br><input type="text" id="orientation-mode" name="orientation-mode"><br>
+                    <input id="clickMe24" type="button" value="changeOrientation" onclick="console.log('changeOrientation pressed');changeOrientation();"/>
+                </form>
+            </td>
+            <td>
+                <input id="clickMe25" type="button" value="Enter full screen" onclick="console.log('Enter full screen');requestFullScreenMode();" />
+            </td>
+            <td>
+                <input id="clickMe26" type="button" value="Exit full screen" onclick="console.log('Exit full screen');requestExitFullScreenMode();" />
+            </td>
         </tr>
     <tr>
     </table>
