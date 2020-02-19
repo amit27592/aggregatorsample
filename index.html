@@ -445,6 +445,7 @@
         }
 
         function changeOrientation() {
+            let env = PhonePe.Constants.Species.web
             const orientationMode = document.getElementById("orientation-mode").value
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.changeOrientation(orientationMode).then(res => {
@@ -456,6 +457,7 @@
         }
 
         function requestFullScreenMode() {
+            let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.requestFullScreenMode().then(res => {
                     console.log(JSON.stringify(res))
@@ -466,6 +468,7 @@
         }
 
         function requestExitFullScreenMode() {
+            let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.requestExitFullScreenMode().then(res => {
                     console.log(JSON.stringify(res))
