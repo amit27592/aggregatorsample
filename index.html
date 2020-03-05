@@ -478,19 +478,28 @@
             })
         }
 
+        function navigateToMap() {
+            const latitude = Number(document.getElementById("latitude").value)
+            const longitude = Number(document.getElementById("longitude").value)
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.navigateToMap(latitude, longitude).then(res => alert(res)).catch(err => alert(err))
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
                 <td>
                     <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
-            </tr>
-        <tr>
+        </tr>
         <tr>
             <td>
                     <form>
                         Reservation ID: <br><input type="text" id="rid" name="rid"><br>
-                        <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();" </td>
+                        <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();"
                     </form>
+            </td>
         </tr>
         <tr>
             <td>
@@ -512,7 +521,15 @@
                 <input id="clickMe26" type="button" value="Exit full screen" onclick="console.log('Exit full screen');requestExitFullScreenMode();" />
             </td>
         </tr>
-    <tr>
+        <tr>
+            <td>
+                <form>
+                    latitude: <br><input type="number" id="latitude" name="latitude"><br>
+                    longitude: <br><input type="number" id="longitude" name="longitude"><br>
+                    <input id="clickMe27" type="button" value="navigateToMap" onclick="console.log('navigateToMap pressed');proceedToPayWeb();" />
+                </form>
+            </td>
+        </tr>
     </table>
 </body>
 
