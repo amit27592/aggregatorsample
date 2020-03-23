@@ -487,6 +487,21 @@
             })
         }
 
+        function fetchPermission() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                // let res = sdk.isMethodSupported('fetchPermissionGrantToken')
+                // console.log('fetchPermissionToken method supported = ' + res)
+                sdk.fetchPermissionGrantToken(['ADDRESS']).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to create service request token with error = ' + err)
+                    alert('Failed to create service request token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -530,6 +545,11 @@
                 </form>
             </td>
         </tr>
+        <tr>
+            <td>
+                <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+            </tr>
+        <tr>
     </table>
 </body>
 
