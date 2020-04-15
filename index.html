@@ -487,6 +487,14 @@
             })
         }
 
+        function openApp() {
+            const appuniqueid = document.getElementById("appuniqueid").value
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.openMicroApp(appuniqueid, {}).then(res => alert(res)).catch(err => alert(err))
+            })
+        }
+
         function fetchPermission() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then((sdk) => {
@@ -548,6 +556,14 @@
         <tr>
             <td>
                 <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    appuniqueid: <br><input type="string" id="appuniqueid" name="appuniqueid"><br>
+                    <input id="clickMe31" type="button" value="open app" onclick="console.log('open app pressed');openApp();" </td>
+                </form>
             </tr>
         <tr>
     </table>
