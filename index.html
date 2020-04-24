@@ -523,6 +523,20 @@
             })
         }
 
+        function openVideoPlayer() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.startVideoPlayer(configuration).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to check video call with error = ' + err)
+                    alert('Failed to check video call with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -582,6 +596,14 @@
         <tr>
             <td>
                 <input id="clickMe32" type="button" value="videoCheck" onclick="console.log('video check pressed');checkVideoAvailable();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    configuration: <br><input type="string" id="configuration" name="configuration"><br>
+                    <input id="clickMe33" type="button" value="openVideoPlayer" onclick="console.log('open video player pressed');openVideoPlayer();" </td>
+                </form>
             </tr>
         <tr>
     </table>
