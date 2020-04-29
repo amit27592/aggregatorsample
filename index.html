@@ -459,9 +459,7 @@
         function requestFullScreenMode() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
-                sdk.requestFullScreenMode().then(res => {
-                    console.log(JSON.stringify(res))
-                }).catch(err => alert(err))
+                sdk.requestFullScreenMode()
             }).catch(err => {
                 alert('failed to full screen ', err)
             })
@@ -470,9 +468,7 @@
         function requestExitFullScreenMode() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
-                sdk.requestExitFullScreenMode().then(res => {
-                    console.log(JSON.stringify(res))
-                }).catch(err => alert(err))
+                sdk.requestExitFullScreenMode()
             }).catch(err => {
                 alert('failed to exit full screen ', err)
             })
