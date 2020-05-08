@@ -1,43 +1,608 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- //Web::Jatin Remove the testing infra -->
+
+<!doctype html>
+<html>
+
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="PhonePe.com revolutionizing payments by building India's Payments App to provide a cashless and a seamless payment experience">
-<meta name="keywords" content="PhonePe, Phonepe, UPI, Cashless payments, India">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="PhonePe India's Payments App - PhonePe.com">
-<meta property="og:url" content="https://www.phonepe.com/">
-<meta property="og:description" content="PhonePe.com revolutionizing payments by building India's Payments App to provide a cashless and a seamless payment experience">
-<title>PhonePe India's Payments App - PhonePe.com</title>
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="../../images/fav/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
-<link rel="stylesheet" type="text/css" href="https://www.phonepe.com/app/category/investment/digi-gold/css/digi-tnc-css.css">
-<link rel="stylesheet" type="text/css" href="../css/digi-tnc-css.css">
+    <h1 align="middle"> PhonePe Web SDK Test </h1>
 </head>
 
 <body>
+    <style>
+        button,
+        td,
+        input {
+            font-size: 30px;
+        }
+    </style>
+    <script src="./bundle.orientation.js"></script>
+    <script>
 
-<div class="container">
-	
-<ul>
-	<p><b>General T&amp;C</b></p>
-	<li>A customer from one mobile can purchase up to 6 SJT (Single Journey Tickets) or 6 RJT (Return Journey Tickets)for same “Origin” & “Destination” for travelling in a group and multiple QR Tickets will be issued.</li>
-	<li>A SJT or a RJT is valid for the same business day, i.e. start and end time of working hours of Hyderabad Metro.</li>
-	<li>Mobile should have internet access for generating the QR ticket.</li>
-	<li>For both SJT and RJT, there will be no refund once the ticket is used at entry.</li>
-	<li>A customer can cancel the unused ticket and avail full refund if the ticket is cancelled within the same business day (business operating hours of Hyderabad Metro). Currently, PhonePe does not support partial cancellation of RJT.</li>
-	<li>“Travel Time Limit” (the difference between entry & exit time at fare collection gate) will be:
-		<br>1 Same Station: 30 minutes, (except: Ameerpet: 120 mins)
-		<br>2 Different Station: 150 minutes
-		<br>3 Penalty/fee for overstay is Rs.15/hour maximum up to Rs60 For a detailed and final travel time limit policy and penalties, please refer to
-		https://www.ltmetro.com/penalty-charter/
-	</li>
-	<li type="none" style="padding-top: 20px">The above terms & conditions are part of the business rules as stated by Hyderabad Metro. PhonePe is not liable for any damages/issues.</li>	
-</ul>	
+        function currentOS() {
+            return 'android';
+            //return 'android';
+        }
 
-</div>
+        function createuuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
 
+        function transactionId() {
+            return this.createuuid()
+        }
+
+        function reservervationId() {
+            return this.createuuid()
+        }
+
+        function setData() {
+            //let os = (this.currentOS() === 'ios') ? PhonePe.Constants.OS.ios : PhonePe.Constants.OS.android
+            //console.log('Fetching OS dynamically = ' + os)
+            //console.log('Species = ' + PhonePe.Constants.Species.web)
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let res = sdk.isMethodSupported('setItem')
+                console.log('setItem method supported = ' + res)
+                sdk.setItem('test', 'key', 'value')
+
+            })
+
+        }
+
+        function getData() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let res = sdk.isMethodSupported('getItem')
+                console.log('getItem method supported = ' + res)
+                sdk.getItem('test', 'key', null).then((data) => {
+                    console.log("data received on js side = " + data)
+                }).catch((err) => {
+                    console.log("Error found = " + err)
+                })
+            })
+
+        }
+
+        function removeData() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('removeItem')
+                console.log('removeItem method supported = ' + res)
+                sdk.removeItem('test', 'key')
+            })
+
+        }
+
+        function startUpdatingLocation() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('startUpdatingLocation')
+                console.log('startUpdatingLocation method supported = ' + res)
+                sdk.startUpdatingLocation()
+            })
+
+        }
+
+        function stopUpdatingLocation() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('stopUpdatingLocation')
+                console.log('stopUpdatingLocation method supported = ' + res)
+                sdk.stopUpdatingLocation()
+            })
+
+        }
+
+        function registerLocationUpdateSuccessCallback() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                sdk.registerLocationUpdateSuccessCallback('callbackName', (response) => {
+                    console.log('Location success response = ' + JSON.stringify(response))
+                })
+            })
+
+        }
+
+        function registerLocationUpdateFailureCallback() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.registerLocationUpdateFailureCallback('callbackName', (response) => {
+                    console.log('Location failure response = ' + JSON.stringify(response))
+                })
+            })
+
+        }
+
+        function getCurrentLocation() {
+            console.log('Trying to get current location')
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('getCurrentLocation')
+                console.log('getCurrentLocation method supported = ' + res)
+
+                sdk.getCurrentLocation().then((location) => {
+                    console.log("location received on js side = " + location)
+                }).catch((err) => {
+                    console.log("Error found when fetching location = " + err)
+                })
+            }).catch((err) => {
+                console.log('Error caught when initializing PhonePe = ' + err)
+            })
+
+        }
+
+        /**
+         * openTransactionDetailsPage(transactionId: string): Promise<any> | void {
+         }
+         **/
+
+        function navigateToTransactionDetails() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('openTransactionDetailsPage')
+                console.log('openTransactionDetailsPage method supported = ' + res)
+                sdk.openTransactionDetailsPage(this.transactionId())
+            })
+        }
+
+        function navigateToPayments() {
+
+            let merchantName = 'Ticket New'
+            let metadata = [{
+                "Movie Name": "Avengers"
+            }, {"Seats": "3A, 3B, 3C"}]
+            let timeoutInterval = 480000
+
+            let context = {
+                "merchantId": "TICKETNEWTEST",
+                "merchantTransactionId": "transactionId010",
+                "reservationId": "W1803281253545745701305",
+                "serviceCategory": "MOVIE",
+                "validFor": 86400,
+                "payableAmount": 5000,
+                "quantity": 2
+            }
+
+            /**
+             * openPaymentsPage(fallbackURL: string, merchantName: string, context: { [key: string]: any }, imageURL?: string, metaData?: { [key: string]: string }): Promise<any> | void {
+             }
+             * **/
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                sdk.openPaymentsPage(merchantName, context, "", "", metadata, confirmationState).then((response) => {
+                    console.log("Payment was successful = " + response)
+                }).catch((err) => {
+                    console.log("Payment failed with error = " + err)
+                })
+            })
+
+        }
+
+        function navigateToHelpPage() {
+            let navigationRequest = new PhonePe.HelpPageNavigationRequest(this.transactionId())
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.navigateToPage(navigationRequest)
+            })
+
+        }
+
+        function getUserDetails() {
+
+            let email = PhonePe.Constants.UserDetail.email
+            let phoneNumber = PhonePe.Constants.UserDetail.phoneNumber
+            let isEmailVerified = PhonePe.Constants.UserDetail.isEmailVerified
+            let name = PhonePe.Constants.UserDetail.name
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('getUserDetails')
+                console.log('getUserDetails method supported = ' + res)
+
+                sdk.getUserDetails([email, phoneNumber, isEmailVerified, name]).then((user) => {
+                    console.log("user data received on js = " + JSON.stringify(user))
+                }).catch((err) => {
+                    console.log("Error found when fetching user = " + err)
+                })
+            })
+
+        }
+
+        function getSupportedWebSDKVersion() {
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web, this.currentOS()).then((sdk) => {
+                sdk.isMethodSupported('getUserDetails')
+            })
+        }
+
+        function seekPermission() {
+            let env = PhonePe.Constants.Species.web
+            let readsms = PhonePe.Constants.Permission.READ_SMS
+            let location = PhonePe.Constants.Permission.LOCATION
+
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+
+                let res = sdk.isMethodSupported('seekPermission')
+                console.log('seekPermission method supported = ' + res)
+
+                sdk.seekPermission([readsms, location]).then((data) => {
+                    console.log('Successfully got permission for readsms')
+                })
+            }).catch((err) => {
+                console.log('Failed to fetch permission with error = ' + err)
+            })
+        }
+
+        function openSettingsPage() {
+            let env = PhonePe.Constants.Species.web
+            let readsms = PhonePe.Constants.Permission.READ_SMS
+            let location = PhonePe.Constants.Permission.LOCATION
+
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('openSettingsPageForPermission')
+                console.log('openSettingsPageForPermission method supported = ' + res)
+
+                sdk.openSettingsPageForPermission().then(() => {
+                    console.log('Successfully opened settings page')
+                })
+            }).catch((err) => {
+                console.log('Failed to open settings page with error = ' + err)
+            })
+        }
+
+        function logMerchantEvent() {
+
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env, this.currentOS()).then((sdk) => {
+                let res = sdk.isMethodSupported('logMerchantEvent')
+                console.log('logMerchantEvent method supported = ' + res)
+
+                let name = 'Test'
+                let metadata = { 'key': 'value' }
+
+                sdk.logMerchantEvent(name, metadata).then(() => {
+                    console.log('Successfully sent event with name = ' + name)
+                })
+            }).catch((err) => {
+                console.log('Failed to send event with error = ' + err)
+            })
+
+        }
+
+        function replace() {
+
+            console.log('Using Replace state');
+
+            if (history.replaceState) {
+                history.replaceState(null, "Page", "test.html");
+                history.go(0);
+            } else {
+                location.replace(url);
+            }
+
+            // if(!!(window.history && history.replaceState)){
+            //     console.log('Using Replace state inside');
+            //     console.log('History before = ' + window.history);
+            //     window.history.replaceState({}, document.title, "test.html");
+            //     console.log('History after = ' + window.history);
+            // } else {
+            //     location.replace("test.html");
+            // }
+
+            // document.location.replace('test.html')
+        }
+
+        function setCookie() {
+            console.log('Testing set cookie')
+            document.cookie = 'test1=test1'
+        }
+
+        function getCookie() {
+            alert(document.cookie)
+        }
+
+        function reserveOrder() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                let res = sdk.isMethodSupported('reserveOrder')
+                console.log('reserveOrder method supported = ' + res)
+
+                let response = 'eyJtZXJjaGFudElkIjoiT1lPVEVTVCIsIm1lcmNoYW50T3JkZXJJZCI6IjVjMGZiYWFmODNhZjQ1IiwicmVzZXJ2YXRpb25JZCI6IlIxOTA0MDQxNDMwMTkyNTE4NjgzMjM1In0='
+                alert(response)
+                let providerId = 'ONNBIKESTEST'
+                sdk.reserveOrder(response, providerId).then((res2) => {
+                    console.log('res2 = ' + res2)
+                }).catch((err) => {
+                    console.log('Failed to reserve order with error = ' + err)
+                })
+            })
+        }
+
+        function fulfillOrder() {
+            let merchantName = 'Oyo Rooms'
+            let metadata = [{
+                "Movie Name": "Avengers"
+            }, {"Seats": "3A, 3B, 3C"}]
+            let timeoutInterval = 480000
+
+            /**
+             * {
+                "merchantId": "TICKETNEWTEST",
+                "merchantTransactionId": "transactionId010",
+                "reservationId": "W1803281253545745701305",
+                "serviceCategory": "MOVIE",
+                "validFor": 86400,
+                "payableAmount": 5000,
+                "quantity": 2
+            }
+             **/
+            // Replace this with the response from swagger's /v2/webapp/txn/reserve
+            let context = 'eyJtZXJjaGFudElkIjoiT1lPVEVTVCIsIm1lcmNoYW50VHJhbnNhY3Rpb25JZCI6InFlemFlb2xvdGttdDFrNzNubjdqcWs0bCIsInJlc2VydmF0aW9uSWQiOiJSMTkwMzI4MTE1OTI1OTY4MjgyNDM3MiIsInNlcnZpY2VSZXF1ZXN0SWQiOiJPMTkwMzI4MTE1OTEzMjIxMjgyNDI0MCIsInNlcnZpY2VDYXRlZ29yeSI6IkhPVEVMIiwidmFsaWRGb3IiOjAsInZhbGlkVGlsbCI6MCwicGF5YWJsZUFtb3VudCI6MTY4MTAwLCJzZXJ2aWNlVHlwZVZlcnNpb24iOiJWMiJ9'
+
+            /**
+             * openPaymentsPage(fallbackURL: string, merchantName: string, context: { [key: string]: any }, imageURL?: string, metaData?: { [key: string]: string }): Promise<any> | void {
+             }
+             * **/
+
+            PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
+                let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                sdk.openPaymentsPageForReservedOrder(merchantName, context, "", "", metadata, confirmationState).then((response) => {
+                    console.log("Payment was successful = " + response)
+                }).catch((err) => {
+                    console.log("Payment failed with error = " + err)
+                })
+            })
+        }
+
+        function selectFile() {
+            console.log('Inside selectFile() method')
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                let res = sdk.isMethodSupported('selectFile')
+                console.log('selectFile method supported = ' + res)
+
+                sdk.selectFile('image', true).then((res2) => {
+
+                    // Now read the data from the URI
+                    console.log('res2 = ' + res2)
+                    let uri = res2[0].uri
+                    let supported = sdk.isMethodSupported('readFile')
+
+                    console.log('readFile method supported = ' + supported)
+                    sdk.readFile(uri, 0, 200).then((res4) => {
+                        console.log('res2 = ' + res4)
+                        alert('res2 = ' + res4)
+                    }).catch((err) => {
+                        console.log('Failed to select file with error = ' + err)
+                    })
+
+                }).catch((err) => {
+                    console.log('Failed to select file with error = ' + err)
+                })
+            })
+        }
+
+        function proceedToPayWeb() {
+            const rid = document.getElementById("rid").value
+            const fallbackURL = 'https://www.google.com/'
+            let env = PhonePe.Constants.Species.web
+
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.proceedToPay(rid, fallbackURL).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to proceed to pay ', err)
+            })
+        }
+
+        function proceedToPayRN() {
+            const rid = 'R3124519230414'
+            const fallbackURL = 'https://www.google.com/'
+            let env = PhonePe.Constants.Species.native
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.proceedToPay(rid, fallbackURL).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to proceed to pay ', err)
+            })
+        }
+
+        function refresh() {
+            location.reload(true)
+        }
+
+        function startBluetooth() {
+            const options = {showAlert: true}
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.bluetoothStart(options).then(res => {
+                    alert(JSON.stringify(res))
+                }).catch(err => alert(JSON.stringify(err)))
+            }).catch(err => {
+                alert('failed to start bluetooth ', err)
+            })
+        }
+
+        function enableBluetooth() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.bluetoothEnableBluetooth().then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to start bluetooth ', err)
+            })
+        }
+
+        function createServiceRequestToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.createServiceRequestToken().then(res => {
+                    alert(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to start bluetooth ', err)
+            })
+        }
+
+        function changeOrientation() {
+            let env = PhonePe.Constants.Species.web
+            const orientationMode = document.getElementById("orientation-mode").value
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.changeOrientation(orientationMode).then(res => {
+                    console.log(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to change orientation ', err)
+            })
+        }
+
+        function requestFullScreenMode() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.requestFullScreenMode()
+            }).catch(err => {
+                alert('failed to full screen ', err)
+            })
+        }
+
+        function requestExitFullScreenMode() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.requestExitFullScreenMode()
+            }).catch(err => {
+                alert('failed to exit full screen ', err)
+            })
+        }
+
+        function navigateToMap() {
+            const latitude = Number(document.getElementById("latitude").value)
+            const longitude = Number(document.getElementById("longitude").value)
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.navigateToMap(latitude, longitude).then(res => alert(res)).catch(err => alert(err))
+            })
+        }
+
+        function openApp() {
+            const appuniqueid = document.getElementById("appuniqueid").value
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.openMicroApp(appuniqueid, {}).then(res => alert(res)).catch(err => alert(err))
+            })
+        }
+
+        function fetchPermission() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                // let res = sdk.isMethodSupported('fetchPermissionGrantToken')
+                // console.log('fetchPermissionToken method supported = ' + res)
+                sdk.fetchPermissionGrantToken(['ADDRESS']).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to fetch permission token with error = ' + err)
+                    alert('Failed to fetch permission token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function checkVideoAvailable() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.isVideoCallingEnabled().then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to check video call with error = ' + err)
+                    alert('Failed to check video call with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function openVideoPlayer() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.startVideoPlayer(configuration).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to check video call with error = ' + err)
+                    alert('Failed to check video call with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+    </script>
+    <table align="middle" cellspacing="10">
+        <tr>
+                <td>
+                    <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
+        </tr>
+        <tr>
+            <td>
+                    <form>
+                        Reservation ID: <br><input type="text" id="rid" name="rid"><br>
+                        <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();"
+                    </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe22" type="button" value="Create Token" onclick="console.log('create token');createServiceRequestToken();" </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
+            <td>
+                <form>
+                    Orientation Mode: <br><input type="text" id="orientation-mode" name="orientation-mode"><br>
+                    <input id="clickMe24" type="button" value="changeOrientation" onclick="console.log('changeOrientation pressed');changeOrientation();"/>
+                </form>
+            </td>
+            <td>
+                <input id="clickMe25" type="button" value="Enter full screen" onclick="console.log('Enter full screen');requestFullScreenMode();" />
+            </td>
+            <td>
+                <input id="clickMe26" type="button" value="Exit full screen" onclick="console.log('Exit full screen');requestExitFullScreenMode();" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    latitude: <br><input type="number" id="latitude" name="latitude"><br>
+                    longitude: <br><input type="number" id="longitude" name="longitude"><br>
+                    <input id="clickMe27" type="button" value="navigateToMap" onclick="console.log('navigateToMap pressed');navigateToMap();" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    appuniqueid: <br><input type="string" id="appuniqueid" name="appuniqueid"><br>
+                    <input id="clickMe31" type="button" value="open app" onclick="console.log('open app pressed');openApp();" </td>
+                </form>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <input id="clickMe32" type="button" value="videoCheck" onclick="console.log('video check pressed');checkVideoAvailable();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    configuration: <br><input type="string" id="configuration" name="configuration"><br>
+                    <input id="clickMe33" type="button" value="openVideoPlayer" onclick="console.log('open video player pressed');openVideoPlayer();" </td>
+                </form>
+            </tr>
+        <tr>
+    </table>
 </body>
+
 </html>
