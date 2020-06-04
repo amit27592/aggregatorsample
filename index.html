@@ -15,7 +15,7 @@
             font-size: 30px;
         }
     </style>
-    <script src="./phonepesdk.video.js"></script>
+    <script src="./phonepesdk.js"></script>
     <script>
 
         function currentOS() {
@@ -494,9 +494,8 @@
         function fetchPermission() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then((sdk) => {
-                // let res = sdk.isMethodSupported('fetchPermissionGrantToken')
-                // console.log('fetchPermissionToken method supported = ' + res)
-                sdk.fetchPermissionGrantToken(['ADDRESS']).then((res2) => {
+                const permissions = document.getElementById("permissions").value
+                sdk.fetchPermissionGrantToken(permissions.split(',')).then((res2) => {
                     console.log('res2 = ' + res2)
                     alert(JSON.stringify(res2))
                 }).catch((err) => {
@@ -583,7 +582,10 @@
         </tr>
         <tr>
             <td>
-                <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+                <form>
+                    permissions: <br><input type="string" id="permissions" name="permissions"><br>
+                    <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+                </form>
             </tr>
         <tr>
         <tr>
