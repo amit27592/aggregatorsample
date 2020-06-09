@@ -546,9 +546,10 @@
         }
 
         function videoCallback(params) {
-            if (JSON.stringify(params).indexOf('ANALYTICS') >= 0) {
-                alert('got call from native: ', JSON.stringify(params))
-            }
+//             if (JSON.stringify(params).indexOf('ANALYTICS') >= 0) {
+//                 alert('got call from native: ', JSON.stringify(params))
+//             }
+            alert('got call from native: ', JSON.stringify(params))
             console.log('got call from native: ', JSON.stringify(params))
         }
 
