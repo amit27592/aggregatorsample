@@ -532,6 +532,20 @@
             })
         }
 
+        function openAudioPlayer() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("audio_configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.startAudioPlayer(configuration).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to start audio player with error = ' + err)
+                    alert('Failed to start audio player with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
         function fetchAuthToken() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then((sdk) => {
@@ -624,6 +638,15 @@
                 </form>
             </tr>
         <tr>
+        
+            <tr>
+                <td>
+                    <form>
+                        audio configuration: <br><input type="string" id="audio_configuration" name="audio_configuration"><br>
+                        <input id="clickMe35" type="button" value="openAudioPlayer" onclick="console.log('open audio player pressed');openAudioPlayer();" </td>
+                    </form>
+                </tr>
+            <tr>
         <tr>
             <td>
                 <input id="clickMe34" type="button" value="fetchAuthToken" onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
