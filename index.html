@@ -566,6 +566,16 @@
             console.log('got call from native: ', JSON.stringify(params))
         }
 
+        function sampleCallback(params) {
+            alert(JSON.stringify(params))
+            console.log('got call from native: ', JSON.stringify(params))
+        }
+
+        function openRedirectUrl() {
+            const redirectUrl = document.getElementById("redirectUrl").value
+            window.location.href = redirectUrl
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -651,6 +661,13 @@
             <td>
                 <input id="clickMe34" type="button" value="fetchAuthToken" onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
             </tr>
+            <tr>
+                <td>
+                    <form>
+                        redirectUrl: <br><input type="string" id="redirectUrl" name="redirectUrl"><br>
+                        <input id="clickMe35" type="button" value="openRedirectUrl" onclick="console.log('opening redirect url');openRedirectUrl();" </td>
+                    </form>
+                </tr>
         <tr>
     </table>
 </body>
