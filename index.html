@@ -440,7 +440,18 @@
                     alert(JSON.stringify(res))
                 }).catch(err => alert(err))
             }).catch(err => {
-                alert('failed to start bluetooth ', err)
+                alert('failed to createServiceRequestToken ', err)
+            })
+        }
+
+        function fetchEngagementToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.fetchEngagementToken().then(res => {
+                    alert(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to fetchEngagementToken ', err)
             })
         }
 
@@ -593,6 +604,10 @@
         <tr>
             <td>
                 <input id="clickMe22" type="button" value="Create Token" onclick="console.log('create token');createServiceRequestToken();" </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe36" type="button" value="Create Engagement token" onclick="console.log('create engagement token');fetchEngagementToken();" </td>
         </tr>
         <tr>
             <td>
