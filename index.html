@@ -447,7 +447,7 @@
         function fetchEngagementToken() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
-                sdk.fetchEngagementToken().then(res => {
+                sdk.fetchToken(PhonePe.Constants.TokenType.ENGAGEMENT_ACTION).then(res => {
                     alert(JSON.stringify(res))
                 }).catch(err => alert(err))
             }).catch(err => {
