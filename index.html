@@ -587,6 +587,14 @@
             window.location.href = redirectUrl
         }
 
+        function reportHeartbeat() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("heartbeat_configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.reportMediaHeartbeat(configuration)
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -669,6 +677,8 @@
                     <form>
                         audio configuration: <br><input type="string" id="audio_configuration" name="audio_configuration"><br>
                         <input id="clickMe35" type="button" value="openAudioPlayer" onclick="console.log('open audio player pressed');openAudioPlayer();" </td>
+                        heartbeat configuration: <br><input type="string" id="heartbeat_configuration" name="heartbeat_configuration"><br>
+                        <input id="clickMe37" type="button" value="reportHeartbeat" onclick="console.log('report heartbeat pressed');reportHeartbeat();" </td>
                     </form>
                 </tr>
             <tr>
