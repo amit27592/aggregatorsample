@@ -569,6 +569,19 @@
                 })
             })
         }
+        
+        function fetchGrantToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.fetchGrantToken().then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to get grant token with error = ' + err)
+                    alert('Failed to get grant token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
 
         function videoCallback(params) {
             if (JSON.stringify(params).indexOf('HEART_BEAT') === -1) {
@@ -685,6 +698,10 @@
         <tr>
             <td>
                 <input id="clickMe34" type="button" value="fetchAuthToken" onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
+            </tr>
+        <tr>
+            <td>
+                <input id="clickMe44" type="button" value="fetchGrantToken" onclick="console.log('fetchGrantToken pressed');fetchGrantToken();" </td>
             </tr>
             <tr>
                 <td>
