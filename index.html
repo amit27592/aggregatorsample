@@ -619,7 +619,7 @@
             let env = PhonePe.Constants.Species.web
             const deeplinkURL = document.getElementById("deeplinkURL").value
             PhonePe.PhonePe.build(env).then((sdk) => {
-                sdk.navigateToDeeplink(deeplinkURL, 'DEEPLINK')
+                sdk.navigateTo(deeplinkURL, 'DEEPLINK')
             })
         }
 
