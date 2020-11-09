@@ -608,6 +608,21 @@
             })
         }
 
+        function closeApp() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.closeApp()
+            })
+        }
+
+        function navigateToDeeplink() {
+            let env = PhonePe.Constants.Species.web
+            const deeplinkURL = document.getElementById("deeplinkURL").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.navigateToDeeplink(deeplinkURL, 'DEEPLINK')
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -710,6 +725,18 @@
                         <input id="clickMe35" type="button" value="openRedirectUrl" onclick="console.log('opening redirect url');openRedirectUrl();" </td>
                     </form>
                 </tr>
+            <tr>
+                <td>
+                    <input id="clickMe49" type="button" value="closeApp" onclick="console.log('closeApp pressed');closeApp();" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        deeplink URL: <br><input type="string" id="deeplinkURL" name="deeplinkURL"/><br>
+                        <input id="clickMe50" type="button" value="navigateToDeeplink" onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />                    </form>
+                </td>
+            </tr>
         <tr>
     </table>
 </body>
