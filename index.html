@@ -629,9 +629,10 @@
             const appType = document.getElementById("appType").value
             const navigationContext = document.getElementById("navigationContext").value
             const containerProps = document.getElementById("containerProps").value
-
+            const props = JSON.parse(containerProps)
+            console.log(props)
             PhonePe.PhonePe.build(env).then((sdk) => {
-                sdk.navigateToApp(appUniqueId, appType, navigationContext, JSON.parse(containerProps))
+                sdk.navigateToApp(appUniqueId, appType, navigationContext, props)
                     .then(res => {
                         alert(JSON.stringify(res))
                     }).catch(err => {
