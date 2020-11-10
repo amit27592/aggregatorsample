@@ -623,6 +623,23 @@
             })
         }
 
+        function openSwitchApp() {
+            let env = PhonePe.Constants.Species.web
+            const appUniqueId = document.getElementById("open_appUniqueId").value
+            const appType = document.getElementById("appType").value
+            const navigationContext = document.getElementById("navigationContext").value
+            const containerProps = document.getElementById("containerProps").value
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.navigateToApp(appUniqueId, appType, navigationContext, containerProps)
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -734,7 +751,19 @@
                 <td>
                     <form>
                         deeplink URL: <br><input type="string" id="deeplinkURL" name="deeplinkURL"/><br>
-                        <input id="clickMe50" type="button" value="navigateToDeeplink" onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />                    </form>
+                        <input id="clickMe50" type="button" value="navigateToDeeplink" onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        appUniqueId: <br><input type="string" id="open_appUniqueId" name="open_appUniqueId"/><br>
+                        appType: <br><input type="string" id="appType" name="appType"/><br>
+                        navigationContext: <br><input type="string" id="navigationContext" name="navigationContext"/><br>
+                        containerProps: <br><input type="string" id="containerProps" name="containerProps"/><br>
+                        <input id="clickMe51" type="button" value="openSwitchApp" onclick="console.log('openSwitchApp pressed');openSwitchApp();" />
+                    </form>
                 </td>
             </tr>
         <tr>
