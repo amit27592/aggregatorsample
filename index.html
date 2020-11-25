@@ -640,6 +640,21 @@
             })
         }
 
+        function createTokenResource() {
+            let env = PhonePe.Constants.Species.web
+            const tokenType = document.getElementById("resource_token_type").value
+            const token = document.getElementById("resource_token").value
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.createTokenResource(tokenType, tokens)
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })    
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -763,6 +778,15 @@
                         navigationContext: <br><input type="string" id="navigationContext" name="navigationContext"/><br>
                         containerProps: <br><input type="string" id="containerProps" name="containerProps"/><br>
                         <input id="clickMe51" type="button" value="openSwitchApp" onclick="console.log('openSwitchApp pressed');openSwitchApp();" />
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        tokenType: <br><input type="string" id="resource_token_type" name="resource_token_type"/><br>
+                        token: <br><input type="string" id="resource_token" name="resource_token"/><br>
+                        <input id="clickMe52" type="button" value="createTokenResource" onclick="console.log('createTokenResource pressed');createTokenResource();" />
                     </form>
                 </td>
             </tr>
