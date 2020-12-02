@@ -646,7 +646,7 @@
             const token = document.getElementById("resource_token").value
 
             PhonePe.PhonePe.build(env).then((sdk) => {
-                sdk.createTokenResource(tokenType, tokens)
+                sdk.createTokenResource(tokenType, token)
                     .then(res => {
                         alert(JSON.stringify(res))
                     }).catch(err => {
