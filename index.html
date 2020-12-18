@@ -15,7 +15,7 @@
             font-size: 30px;
         }
     </style>
-    <script src="./bundle.orientation.js"></script>
+    <script src="./phonepesdk.js"></script>
     <script>
 
         function currentOS() {
@@ -465,7 +465,18 @@
                     alert(JSON.stringify(res))
                 }).catch(err => alert(err))
             }).catch(err => {
-                alert('failed to start bluetooth ', err)
+                alert('failed to createServiceRequestToken ', err)
+            })
+        }
+
+        function fetchEngagementToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.fetchToken(PhonePe.Constants.TokenType.ENGAGEMENT_ACTION).then(res => {
+                    alert(JSON.stringify(res))
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to fetchEngagementToken ', err)
             })
         }
 
@@ -484,9 +495,7 @@
         function requestFullScreenMode() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
-                sdk.requestFullScreenMode().then(res => {
-                    console.log(JSON.stringify(res))
-                }).catch(err => alert(err))
+                sdk.requestFullScreenMode()
             }).catch(err => {
                 alert('failed to full screen ', err)
             })
@@ -495,9 +504,7 @@
         function requestExitFullScreenMode() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
-                sdk.requestExitFullScreenMode().then(res => {
-                    console.log(JSON.stringify(res))
-                }).catch(err => alert(err))
+                sdk.requestExitFullScreenMode()
             }).catch(err => {
                 alert('failed to exit full screen ', err)
             })
@@ -510,6 +517,167 @@
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.navigateToMap(latitude, longitude).then(res => alert(res)).catch(err => alert(err))
             })
+        }
+
+        function openApp() {
+            const appuniqueid = document.getElementById("appuniqueid").value
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.openMicroApp(appuniqueid, {}).then(res => alert(res)).catch(err => alert(err))
+            })
+        }
+
+        function fetchPermission() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                const permissions = document.getElementById("permissions").value
+                sdk.fetchPermissionGrantToken(permissions.split(',')).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to fetch permission token with error = ' + err)
+                    alert('Failed to fetch permission token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function checkVideoAvailable() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.isVideoCallingEnabled().then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to check video call with error = ' + err)
+                    alert('Failed to check video call with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function openVideoPlayer() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.startVideoPlayer(configuration).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to check video call with error = ' + err)
+                    alert('Failed to check video call with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function openAudioPlayer() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("audio_configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.startAudioPlayer(configuration).then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to start audio player with error = ' + err)
+                    alert('Failed to start audio player with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function fetchAuthToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.fetchAuthToken().then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to get auth token with error = ' + err)
+                    alert('Failed to get auth token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+        
+        function fetchGrantToken() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.fetchGrantToken().then((res2) => {
+                    console.log('res2 = ' + res2)
+                    alert(JSON.stringify(res2))
+                }).catch((err) => {
+                    console.log('Failed to get grant token with error = ' + err)
+                    alert('Failed to get grant token with error = ' + JSON.stringify(err))
+                })
+            })
+        }
+
+        function videoCallback(params) {
+            if (JSON.stringify(params).indexOf('HEART_BEAT') === -1) {
+                alert(JSON.stringify(params))
+            }
+            console.log('got call from native: ', JSON.stringify(params))
+        }
+
+        function sampleCallback(params) {
+            alert(JSON.stringify(params))
+            console.log('got call from native: ', JSON.stringify(params))
+        }
+
+        function openRedirectUrl() {
+            const redirectUrl = document.getElementById("redirectUrl").value
+            window.location.href = redirectUrl
+        }
+
+        function reportHeartbeat() {
+            let env = PhonePe.Constants.Species.web
+            const configuration = document.getElementById("heartbeat_configuration").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.reportMediaHeartbeat(configuration)
+            })
+        }
+
+        function closeApp() {
+            let env = PhonePe.Constants.Species.web
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.closeApp()
+            })
+        }
+
+        function navigateToDeeplink() {
+            let env = PhonePe.Constants.Species.web
+            const deeplinkURL = document.getElementById("deeplinkURL").value
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.navigateTo(deeplinkURL, 'DEEPLINK')
+            })
+        }
+
+        function openSwitchApp() {
+            let env = PhonePe.Constants.Species.web
+            const appUniqueId = document.getElementById("open_appUniqueId").value
+            const appType = document.getElementById("appType").value
+            const navigationContext = document.getElementById("navigationContext").value
+            const containerProps = document.getElementById("containerProps").value
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.navigateToApp(appUniqueId, appType, navigationContext, { backButtonTitle: 'App', shouldShowTopBar: true  })
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })
+        }
+
+        function createTokenResource() {
+            let env = PhonePe.Constants.Species.web
+            const tokenType = document.getElementById("resource_token_type").value
+            const token = document.getElementById("resource_token").value
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.createTokenResource(tokenType, token)
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })    
         }
 
     </script>
@@ -538,12 +706,25 @@
         <tr>
             <td>
                 <input id="clickMe22" type="button" value="Create Token"
-                    onclick="console.log('create token');createServiceRequestToken();" </td>
+                    onclick="console.log('create token');createServiceRequestToken();"/>
+                </td>
         </tr>
         <tr>
             <td>
+                <input id="clickMe36" type="button" value="Create Engagement token" onclick="console.log('create engagement token');fetchEngagementToken();"/> </td>
+                </td>
+        </tr>
+        
+        <tr>
+            <td>
                 <input id="clickMe23" type="button" value="start bluetooth"
-                    onclick="console.log('start bluetooth');startBluetooth();" </td>
+                    onclick="console.log('start bluetooth');startBluetooth();" />
+                </td>
+                
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
             <td>
                 <form>
                     Orientation Mode: <br><input type="text" id="orientation-mode" name="orientation-mode"><br>
@@ -570,6 +751,95 @@
                 </form>
             </td>
         </tr>
+        <tr>
+            <td>
+                <form>
+                    permissions: <br><input type="string" id="permissions" name="permissions"><br>
+                    <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+                </form>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    appuniqueid: <br><input type="string" id="appuniqueid" name="appuniqueid"><br>
+                    <input id="clickMe31" type="button" value="open app" onclick="console.log('open app pressed');openApp();" </td>
+                </form>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <input id="clickMe32" type="button" value="videoCheck" onclick="console.log('video check pressed');checkVideoAvailable();" </td>
+            </tr>
+        <tr>
+        <tr>
+            <td>
+                <form>
+                    configuration: <br><input type="string" id="configuration" name="configuration"><br>
+                    <input id="clickMe33" type="button" value="openVideoPlayer" onclick="console.log('open video player pressed');openVideoPlayer();" </td>
+                </form>
+            </tr>
+        <tr>
+        
+            <tr>
+                <td>
+                    <form>
+                        audio configuration: <br><input type="string" id="audio_configuration" name="audio_configuration"><br>
+                        <input id="clickMe35" type="button" value="openAudioPlayer" onclick="console.log('open audio player pressed');openAudioPlayer();" </td>
+                        heartbeat configuration: <br><input type="string" id="heartbeat_configuration" name="heartbeat_configuration"><br>
+                        <input id="clickMe37" type="button" value="reportHeartbeat" onclick="console.log('report heartbeat pressed');reportHeartbeat();" </td>
+                    </form>
+                </tr>
+            <tr>
+        <tr>
+            <td>
+                <input id="clickMe34" type="button" value="fetchAuthToken" onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
+            </tr>
+        <tr>
+            <td>
+                <input id="clickMe44" type="button" value="fetchGrantToken" onclick="console.log('fetchGrantToken pressed');fetchGrantToken();" </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        redirectUrl: <br><input type="string" id="redirectUrl" name="redirectUrl"><br>
+                        <input id="clickMe35" type="button" value="openRedirectUrl" onclick="console.log('opening redirect url');openRedirectUrl();" </td>
+                    </form>
+                </tr>
+            <tr>
+                <td>
+                    <input id="clickMe49" type="button" value="closeApp" onclick="console.log('closeApp pressed');closeApp();" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        deeplink URL: <br><input type="string" id="deeplinkURL" name="deeplinkURL"/><br>
+                        <input id="clickMe50" type="button" value="navigateToDeeplink" onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        appUniqueId: <br><input type="string" id="open_appUniqueId" name="open_appUniqueId"/><br>
+                        appType: <br><input type="string" id="appType" name="appType"/><br>
+                        navigationContext: <br><input type="string" id="navigationContext" name="navigationContext"/><br>
+                        containerProps: <br><input type="string" id="containerProps" name="containerProps"/><br>
+                        <input id="clickMe51" type="button" value="openSwitchApp" onclick="console.log('openSwitchApp pressed');openSwitchApp();" />
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form>
+                        tokenType: <br><input type="string" id="resource_token_type" name="resource_token_type"/><br>
+                        token: <br><input type="string" id="resource_token" name="resource_token"/><br>
+                        <input id="clickMe52" type="button" value="createTokenResource" onclick="console.log('createTokenResource pressed');createTokenResource();" />
+                    </form>
+                </td>
+            </tr>
+        <tr>
     </table>
 </body>
 
