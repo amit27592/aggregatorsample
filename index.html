@@ -381,12 +381,13 @@
 
         function proceedToPayOld() {
             const rid = document.getElementById("mid").value
+            const rid1 = document.getElementById("rid1").value
             const fallbackURL = 'https://www.google.com/'
             let env = PhonePe.Constants.Species.web
 
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.openPaymentsPage("eat.fit",
-                    { "merchantId": rid || "EATFITINAPP", "merchantTransactionId": "2489474102", "reservationId": "R2012181135553486969691", "serviceCategory": "FOOD", "validFor": 180, "payableAmount": 23400, "quantity": 1 },
+                    { "merchantId": rid || "EATFITINAPP", "merchantTransactionId": "2489474102", "reservationId": rid1 || "R2012181135553486969691", "serviceCategory": "FOOD", "validFor": 180, "payableAmount": 23400, "quantity": 1 },
                     "",
                     "https://cdn-images.cure.fit/www-curefit-com/image/upload/image/cf-logo.png",
                     [
@@ -699,6 +700,7 @@
             <td>
                 <form>
                     Merchant ID: <br><input type="text" id="mid" name="mid"><br>
+                    Reservation ID: <br><input type="text" id="rid1" name="rid1"><br>
                     <input id="clickMe99" type="button" value="proceedToPayOld"
                         onclick="console.log('proceedToPayOld pressed'); proceedToPayOld();" </form>
             </td>
