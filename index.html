@@ -594,7 +594,7 @@
                 })
             })
         }
-        
+
         function fetchGrantToken() {
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then((sdk) => {
@@ -656,7 +656,7 @@
             const containerProps = document.getElementById("containerProps").value
 
             PhonePe.PhonePe.build(env).then((sdk) => {
-                sdk.navigateToApp(appUniqueId, appType, navigationContext, { backButtonTitle: 'App', shouldShowTopBar: true  })
+                sdk.navigateToApp(appUniqueId, appType, navigationContext, { backButtonTitle: 'App', shouldShowTopBar: true })
                     .then(res => {
                         alert(JSON.stringify(res))
                     }).catch(err => {
@@ -677,7 +677,7 @@
                     }).catch(err => {
                         alert(JSON.stringify(err))
                     })
-            })    
+            })
         }
 
     </script>
@@ -706,25 +706,27 @@
         <tr>
             <td>
                 <input id="clickMe22" type="button" value="Create Token"
-                    onclick="console.log('create token');createServiceRequestToken();"/>
-                </td>
+                    onclick="console.log('create token');createServiceRequestToken();" />
+            </td>
         </tr>
         <tr>
             <td>
-                <input id="clickMe36" type="button" value="Create Engagement token" onclick="console.log('create engagement token');fetchEngagementToken();"/> </td>
-                </td>
+                <input id="clickMe36" type="button" value="Create Engagement token"
+                    onclick="console.log('create engagement token');fetchEngagementToken();" /> </td>
+            </td>
         </tr>
-        
+
         <tr>
             <td>
                 <input id="clickMe23" type="button" value="start bluetooth"
                     onclick="console.log('start bluetooth');startBluetooth();" />
-                </td>
-                
+            </td>
+
         </tr>
         <tr>
             <td>
-                <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
+                <input id="clickMe23" type="button" value="start bluetooth"
+                    onclick="console.log('start bluetooth');startBluetooth();" </td>
             <td>
                 <form>
                     Orientation Mode: <br><input type="text" id="orientation-mode" name="orientation-mode"><br>
@@ -755,90 +757,105 @@
             <td>
                 <form>
                     permissions: <br><input type="string" id="permissions" name="permissions"><br>
-                    <input id="clickMe30" type="button" value="fetch permission" onclick="console.log('fetch permission pressed');fetchPermission();" </td>
+                    <input id="clickMe30" type="button" value="fetch permission"
+                        onclick="console.log('fetch permission pressed');fetchPermission();" </td>
                 </form>
-            </tr>
+        </tr>
         <tr>
         <tr>
             <td>
                 <form>
                     appuniqueid: <br><input type="string" id="appuniqueid" name="appuniqueid"><br>
-                    <input id="clickMe31" type="button" value="open app" onclick="console.log('open app pressed');openApp();" </td>
+                    <input id="clickMe31" type="button" value="open app"
+                        onclick="console.log('open app pressed');openApp();" </td>
                 </form>
-            </tr>
+        </tr>
         <tr>
         <tr>
             <td>
-                <input id="clickMe32" type="button" value="videoCheck" onclick="console.log('video check pressed');checkVideoAvailable();" </td>
-            </tr>
+                <input id="clickMe32" type="button" value="videoCheck"
+                    onclick="console.log('video check pressed');checkVideoAvailable();" </td>
+        </tr>
         <tr>
         <tr>
             <td>
                 <form>
                     configuration: <br><input type="string" id="configuration" name="configuration"><br>
-                    <input id="clickMe33" type="button" value="openVideoPlayer" onclick="console.log('open video player pressed');openVideoPlayer();" </td>
+                    <input id="clickMe33" type="button" value="openVideoPlayer"
+                        onclick="console.log('open video player pressed');openVideoPlayer();" </td>
                 </form>
-            </tr>
+        </tr>
         <tr>
-        
-            <tr>
-                <td>
-                    <form>
-                        audio configuration: <br><input type="string" id="audio_configuration" name="audio_configuration"><br>
-                        <input id="clickMe35" type="button" value="openAudioPlayer" onclick="console.log('open audio player pressed');openAudioPlayer();" </td>
-                        heartbeat configuration: <br><input type="string" id="heartbeat_configuration" name="heartbeat_configuration"><br>
-                        <input id="clickMe37" type="button" value="reportHeartbeat" onclick="console.log('report heartbeat pressed');reportHeartbeat();" </td>
-                    </form>
-                </tr>
-            <tr>
+
         <tr>
             <td>
-                <input id="clickMe34" type="button" value="fetchAuthToken" onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
-            </tr>
+                <form>
+                    audio configuration: <br><input type="string" id="audio_configuration"
+                        name="audio_configuration"><br>
+                    <input id="clickMe35" type="button" value="openAudioPlayer"
+                        onclick="console.log('open audio player pressed');openAudioPlayer();" </td>
+                    heartbeat configuration: <br><input type="string" id="heartbeat_configuration"
+                        name="heartbeat_configuration"><br>
+                    <input id="clickMe37" type="button" value="reportHeartbeat"
+                        onclick="console.log('report heartbeat pressed');reportHeartbeat();" </td>
+                </form>
+        </tr>
+        <tr>
         <tr>
             <td>
-                <input id="clickMe44" type="button" value="fetchGrantToken" onclick="console.log('fetchGrantToken pressed');fetchGrantToken();" </td>
-            </tr>
-            <tr>
-                <td>
-                    <form>
-                        redirectUrl: <br><input type="string" id="redirectUrl" name="redirectUrl"><br>
-                        <input id="clickMe35" type="button" value="openRedirectUrl" onclick="console.log('opening redirect url');openRedirectUrl();" </td>
-                    </form>
-                </tr>
-            <tr>
-                <td>
-                    <input id="clickMe49" type="button" value="closeApp" onclick="console.log('closeApp pressed');closeApp();" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <form>
-                        deeplink URL: <br><input type="string" id="deeplinkURL" name="deeplinkURL"/><br>
-                        <input id="clickMe50" type="button" value="navigateToDeeplink" onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <form>
-                        appUniqueId: <br><input type="string" id="open_appUniqueId" name="open_appUniqueId"/><br>
-                        appType: <br><input type="string" id="appType" name="appType"/><br>
-                        navigationContext: <br><input type="string" id="navigationContext" name="navigationContext"/><br>
-                        containerProps: <br><input type="string" id="containerProps" name="containerProps"/><br>
-                        <input id="clickMe51" type="button" value="openSwitchApp" onclick="console.log('openSwitchApp pressed');openSwitchApp();" />
-                    </form>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <form>
-                        tokenType: <br><input type="string" id="resource_token_type" name="resource_token_type"/><br>
-                        token: <br><input type="string" id="resource_token" name="resource_token"/><br>
-                        <input id="clickMe52" type="button" value="createTokenResource" onclick="console.log('createTokenResource pressed');createTokenResource();" />
-                    </form>
-                </td>
-            </tr>
+                <input id="clickMe34" type="button" value="fetchAuthToken"
+                    onclick="console.log('fetchAuthToken pressed');fetchAuthToken();" </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe44" type="button" value="fetchGrantToken"
+                    onclick="console.log('fetchGrantToken pressed');fetchGrantToken();" </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    redirectUrl: <br><input type="string" id="redirectUrl" name="redirectUrl"><br>
+                    <input id="clickMe35" type="button" value="openRedirectUrl"
+                        onclick="console.log('opening redirect url');openRedirectUrl();" </td>
+                </form>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe49" type="button" value="closeApp"
+                    onclick="console.log('closeApp pressed');closeApp();" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    deeplink URL: <br><input type="string" id="deeplinkURL" name="deeplinkURL" /><br>
+                    <input id="clickMe50" type="button" value="navigateToDeeplink"
+                        onclick="console.log('navigateToDeeplink pressed');navigateToDeeplink();" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    appUniqueId: <br><input type="string" id="open_appUniqueId" name="open_appUniqueId" /><br>
+                    appType: <br><input type="string" id="appType" name="appType" /><br>
+                    navigationContext: <br><input type="string" id="navigationContext" name="navigationContext" /><br>
+                    containerProps: <br><input type="string" id="containerProps" name="containerProps" /><br>
+                    <input id="clickMe51" type="button" value="openSwitchApp"
+                        onclick="console.log('openSwitchApp pressed');openSwitchApp();" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    tokenType: <br><input type="string" id="resource_token_type" name="resource_token_type" /><br>
+                    token: <br><input type="string" id="resource_token" name="resource_token" /><br>
+                    <input id="clickMe52" type="button" value="createTokenResource"
+                        onclick="console.log('createTokenResource pressed');createTokenResource();" />
+                </form>
+            </td>
+        </tr>
         <tr>
     </table>
 </body>
