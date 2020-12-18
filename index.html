@@ -146,7 +146,7 @@
             let merchantName = 'Ticket New'
             let metadata = [{
                 "Movie Name": "Avengers"
-            }, {"Seats": "3A, 3B, 3C"}]
+            }, { "Seats": "3A, 3B, 3C" }]
             let timeoutInterval = 480000
 
             let context = {
@@ -166,7 +166,7 @@
 
             PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
                 let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
-                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED]: actionButtonProp }
                 sdk.openPaymentsPage(merchantName, context, "", "", metadata, confirmationState).then((response) => {
                     console.log("Payment was successful = " + response)
                 }).catch((err) => {
@@ -318,7 +318,7 @@
             let merchantName = 'Oyo Rooms'
             let metadata = [{
                 "Movie Name": "Avengers"
-            }, {"Seats": "3A, 3B, 3C"}]
+            }, { "Seats": "3A, 3B, 3C" }]
             let timeoutInterval = 480000
 
             /**
@@ -342,7 +342,7 @@
 
             PhonePe.PhonePe.build(PhonePe.Constants.Species.web).then((sdk) => {
                 let actionButtonProp = new PhonePe.PaymentModels.ActionButtonProp('Done')
-                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED] : actionButtonProp }
+                let confirmationState = { [PhonePe.PaymentModels.TransactionState.COMPLETED]: actionButtonProp }
                 sdk.openPaymentsPageForReservedOrder(merchantName, context, "", "", metadata, confirmationState).then((response) => {
                     console.log("Payment was successful = " + response)
                 }).catch((err) => {
@@ -379,6 +379,31 @@
             })
         }
 
+        function proceedToPayOld() {
+            const rid = document.getElementById("mid").value
+            const fallbackURL = 'https://www.google.com/'
+            let env = PhonePe.Constants.Species.web
+
+            PhonePe.PhonePe.build(env).then(sdk => {
+                sdk.openPaymentsPage("eat.fit",
+                    { "merchantId": rid || "EATFITINAPP", "merchantTransactionId": "2489474102", "reservationId": "R2012181135553486969691", "serviceCategory": "FOOD", "validFor": 180, "payableAmount": 23400, "quantity": 1 },
+                    "",
+                    "https://cdn-images.cure.fit/www-curefit-com/image/upload/image/cf-logo.png",
+                    [
+                        {
+                            "Items": "Desi Kulcha Burger Veg Duo (Serves 2)",
+                            "No.of Items": "1"
+                        }
+                    ],
+                    undefined
+                ).then(res => {
+                    alert(res)
+                }).catch(err => alert(err))
+            }).catch(err => {
+                alert('failed to proceed to pay ', err)
+            })
+        }
+
         function proceedToPayWeb() {
             const rid = document.getElementById("rid").value
             const fallbackURL = 'https://www.google.com/'
@@ -411,7 +436,7 @@
         }
 
         function startBluetooth() {
-            const options = {showAlert: true}
+            const options = { showAlert: true }
             let env = PhonePe.Constants.Species.web
             PhonePe.PhonePe.build(env).then(sdk => {
                 sdk.bluetoothStart(options).then(res => {
@@ -490,35 +515,49 @@
     </script>
     <table align="middle" cellspacing="10">
         <tr>
-                <td>
-                    <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
+            <td>
+                <input id="clickMe21" type="button" value="Refresh" onclick="console.log('reload');refresh();" </td>
         </tr>
         <tr>
             <td>
-                    <form>
-                        Reservation ID: <br><input type="text" id="rid" name="rid"><br>
-                        <input id="clickMe21" type="button" value="proceedToPayWeb" onclick="console.log('proceedToPay pressed');proceedToPayWeb();"
-                    </form>
+                <form>
+                    Reservation ID: <br><input type="text" id="rid" name="rid"><br>
+                    <input id="clickMe21" type="button" value="proceedToPayWeb"
+                        onclick="console.log('proceedToPay pressed');proceedToPayWeb();" </form>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <form>
+                    Reservation ID: <br><input type="text" id="mid" name="mid"><br>
+                    <input id="clickMe99" type="button" value="proceedToPayOld"
+                        onclick="console.log('proceedToPayOld pressed'); proceedToPayOld();" </form>
             </td>
         </tr>
         <tr>
             <td>
-                <input id="clickMe22" type="button" value="Create Token" onclick="console.log('create token');createServiceRequestToken();" </td>
+                <input id="clickMe22" type="button" value="Create Token"
+                    onclick="console.log('create token');createServiceRequestToken();" </td>
         </tr>
         <tr>
             <td>
-                <input id="clickMe23" type="button" value="start bluetooth" onclick="console.log('start bluetooth');startBluetooth();" </td>
+                <input id="clickMe23" type="button" value="start bluetooth"
+                    onclick="console.log('start bluetooth');startBluetooth();" </td>
             <td>
                 <form>
                     Orientation Mode: <br><input type="text" id="orientation-mode" name="orientation-mode"><br>
-                    <input id="clickMe24" type="button" value="changeOrientation" onclick="console.log('changeOrientation pressed');changeOrientation();"/>
+                    <input id="clickMe24" type="button" value="changeOrientation"
+                        onclick="console.log('changeOrientation pressed');changeOrientation();" />
                 </form>
             </td>
             <td>
-                <input id="clickMe25" type="button" value="Enter full screen" onclick="console.log('Enter full screen');requestFullScreenMode();" />
+                <input id="clickMe25" type="button" value="Enter full screen"
+                    onclick="console.log('Enter full screen');requestFullScreenMode();" />
             </td>
             <td>
-                <input id="clickMe26" type="button" value="Exit full screen" onclick="console.log('Exit full screen');requestExitFullScreenMode();" />
+                <input id="clickMe26" type="button" value="Exit full screen"
+                    onclick="console.log('Exit full screen');requestExitFullScreenMode();" />
             </td>
         </tr>
         <tr>
@@ -526,7 +565,8 @@
                 <form>
                     latitude: <br><input type="number" id="latitude" name="latitude"><br>
                     longitude: <br><input type="number" id="longitude" name="longitude"><br>
-                    <input id="clickMe27" type="button" value="navigateToMap" onclick="console.log('navigateToMap pressed');navigateToMap();" />
+                    <input id="clickMe27" type="button" value="navigateToMap"
+                        onclick="console.log('navigateToMap pressed');navigateToMap();" />
                 </form>
             </td>
         </tr>
