@@ -681,6 +681,32 @@
             })
         }
 
+        function getAppDetails() {
+            let env = PhonePe.Constants.Species.web
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.getAppDetails()
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })
+        }
+
+        function getCachedLocation() {
+            let env = PhonePe.Constants.Species.web
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.getCachedLocation()
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -856,6 +882,18 @@
                     <input id="clickMe52" type="button" value="createTokenResource"
                         onclick="console.log('createTokenResource pressed');createTokenResource();" />
                 </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe53" type="button" value="getAppDetails"
+                    onclick="console.log('getAppDetails pressed');getAppDetails();" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="clickMe54" type="button" value="getCachedLocation"
+                    onclick="console.log('getCachedLocation pressed');getCachedLocation();" />
             </td>
         </tr>
         <tr>
