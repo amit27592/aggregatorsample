@@ -707,6 +707,21 @@
             })
         }
 
+        function fetchUiConfig() {
+            let env = PhonePe.Constants.Species.web
+            const nodes = document.getElementById("nodes").value.split(',')
+            const appType = document.getElementById("appType").value
+
+            PhonePe.PhonePe.build(env).then((sdk) => {
+                sdk.fetchUiConfig(nodes, appType, {})
+                    .then(res => {
+                        alert(JSON.stringify(res))
+                    }).catch(err => {
+                        alert(JSON.stringify(err))
+                    })
+            })
+        }
+
     </script>
     <table align="middle" cellspacing="10">
         <tr>
@@ -894,6 +909,16 @@
             <td>
                 <input id="clickMe54" type="button" value="getCachedLocation"
                     onclick="console.log('getCachedLocation pressed');getCachedLocation();" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    nodes: <br><input type="string" id="nodes" name="nodes" /><br>
+                    strategy: <br><input type="string" id="strategy" name="strategy" /><br>
+                    <input id="clickMe55" type="button" value="fetchUiConfig"
+                        onclick="console.log('fetchUiConfig pressed');fetchUiConfig();" />
+                </form>
             </td>
         </tr>
         <tr>
