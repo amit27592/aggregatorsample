@@ -713,7 +713,7 @@
             const appType = document.getElementById("appType").value
 
             PhonePe.PhonePe.build(env).then((sdk) => {
-                sdk.fetchUiConfig(nodes, appType, {})
+                sdk.fetchUiConfig(nodes, appType, {a: 'hello', b: 'bye'})
                     .then(res => {
                         alert(JSON.stringify(res))
                     }).catch(err => {
